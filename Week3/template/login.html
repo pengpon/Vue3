@@ -20,7 +20,8 @@
             {{ title }}
           </h1>
           <div class="col-8">
-            <form id="form" class="form-signin">
+            <!-- 使用 @submit.prevent -->
+            <form id="form" class="form-signin" @submit.prevent="login">
               <div class="form-floating mb-3">
                 <!-- 綁定資料 -->
                 <input type="email" class="form-control" id="username"
@@ -33,8 +34,8 @@
                   placeholder="Password" required v-model.trim="user.password" @keydown="onChange()">
                 <label for="password">Password</label>
               </div>
-              <!-- 綁定事件 -->
-              <button class="btn btn-lg btn-primary w-100 mt-3" type="button" v-bind:disabled="isDisable" @click="login()">
+              <!-- 綁定事件  -->
+              <button class="btn btn-lg btn-primary w-100 mt-3" type="submit" v-bind:disabled="isDisable">
                 登入
               </button>
             </form>
