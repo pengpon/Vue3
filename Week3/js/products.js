@@ -14,14 +14,13 @@ createApp({
       isLoading: false,   
       modalTitle: '',
       tmpProduct: {},
-
     }
   },
   mounted() {
     // 檢查 cookie, 有 token代表已登入
     const token = this.getCookieByName('vue3Token');
     if (token === '') {
-      window.location = '/login.html';
+      window.location = './login.html';
     }
     axios.interceptors.request.use(function (config) {
       config.headers.Authorization = token
@@ -38,6 +37,11 @@ createApp({
       let cookieArray = document.cookie.split(';')
       cookieArray = cookieArray.filter((item) => item.includes(`${name}`))
       return cookieArray.length == 1 ? cookieArray[0].trim().replace(`${name}=`, '') : ''
+    },
+
+    delCookieByName(name) {
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+      console.log(document.cookie)
     },
 
     // 取得產品列表  預設取第一頁資料
@@ -59,6 +63,21 @@ createApp({
 
     // 新增產品
     addProduct() {
+      let propertyMap = {
+        'title': '標題',
+        'category': '分類',
+        'unit': '單位',
+        'origin_price': '原價',
+        'price': '售價'
+      };
+      let checkObj = this.isValidProduct();
+      if (!checkObj.isValid) {
+        let hintItem = checkObj.lackItem.map((item) => {
+          return propertyMap[item];
+        }).join('、');
+        alert(`資料不完整，${hintItem}為必填` );
+        return;
+      }
       productModal.hide();
       this.isLoading = !this.isLoading;
       const url = `${baseUrl}/api/${path}/admin/product`;
@@ -74,6 +93,23 @@ createApp({
         .catch(error => {
           console.log(error);
         });
+    },
+
+    // check 欄位填寫 
+    isValidProduct () {
+      // title(String)、category(String)、unit(String)、origin_price(Number)、price(Number) 為必填欄位
+      let requiredProperty = [ 'title', 'category', 'unit', 'origin_price', 'price' ];
+      let checkProductObj = {
+        isValid: true,
+        lackItem: [],
+      };
+      requiredProperty.forEach((item) => {
+        if ((!this.tmpProduct.hasOwnProperty(item)) || this.tmpProduct[ item ] === '') {
+          checkProductObj.isValid = false;
+          checkProductObj[ 'lackItem' ].push(item);
+        }
+      });
+      return checkProductObj;
     },
 
     // 編輯修改產品
@@ -136,6 +172,13 @@ createApp({
       axios.post(url)
         .then((res) => {
           if (res.data.success) {
+            // 清 token
+            axios.interceptors.request.use(function (config) {
+              config.headers.Authorization = ''
+              return config
+            });
+            // cookie 刪除 
+            this.delCookieByName('vue3Token');
             window.location = './login.html';
           }
         })
