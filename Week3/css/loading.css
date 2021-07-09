@@ -6,21 +6,23 @@
 }
 
 .loading-container::before{
-  position: absolute;
+  position: fixed;
   content: '';
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  top: 0;
   background-color: rgba(1,1,1,0.5);
-  
-
+  z-index: 99;
 }
 
 .lds-spinner {
-  color: official;
   display: inline-block;
   position: relative;
   width: 80px;
   height: 80px;
+  top: calc(100vh / 2);
+  z-index: 999;
+  
 }
 .lds-spinner div {
   transform-origin: 40px 40px;

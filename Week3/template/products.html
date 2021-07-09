@@ -18,6 +18,24 @@
 
   <body>
     <div id="app">
+      <!-- loading -->
+      <div class="loading-container" v-if="isLoading">
+        <div class="lds-spinner">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <!-- loading -->
       <div class="container">
         <div class="text-end mt-4">
           <button class="btn btn-primary" v-on:click="openModal('create')">建立新的產品</button>
@@ -240,25 +258,6 @@
         </div>
       </div>
       <!-- Modal -->
-      <!-- loading -->
-      <div class="loading-container" v-if="isLoading">
-        <div class="lds-spinner">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-      <!-- loading -->
-    
       <!-- logout -->
       <div class="d-flex justify-content-center">
         <button type="button" class="btn btn-outline-secondary" v-on:click="logout"> 登出 </button>

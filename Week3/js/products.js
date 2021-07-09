@@ -86,6 +86,7 @@ createApp({
           if (res.data.success) {
             this.getProduct();
             this.isLoading = !this.isLoading;
+            this.tmpProduct = {};
           } else {
             console.log(res.data);
           } 
@@ -123,6 +124,7 @@ createApp({
           if (res.data.success) {
             this.getProduct();
             this.isLoading = !this.isLoading;
+            this.tmpProduct = {};
           }
         }).catch(error => {
           console.log(error);
@@ -141,6 +143,7 @@ createApp({
             if (res.data.success) {
               this.getProduct();
               this.isLoading = !this.isLoading;
+              this.tmpProduct = {};
             }
           }).catch(error => {
             console.log(error);
